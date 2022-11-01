@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: mobileBackgroundColor,
       ),
-      home: Scaffold(body: Text('Lets build'),)
+      home: Scaffold(body: Text('Lets build the app'),)
     );
   }
 }
