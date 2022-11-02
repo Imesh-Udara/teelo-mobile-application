@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "148999610966",
+    "project_id": "teelo-mobile-app",
+    "storage_bucket": "teelo-mobile-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:148999610966:android:3efea40edba7f2be4d91f7",
+        "android_client_info": {
+          "package_name": "com.example.teelo_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "148999610966-mq25s890sau35nuqcqrcg9cghnf1rs7f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAY3BIgbh-mX8biHcFVPH-V_9dn6iFiOY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "148999610966-mq25s890sau35nuqcqrcg9cghnf1rs7f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
