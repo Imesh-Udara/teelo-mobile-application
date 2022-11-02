@@ -1,6 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:teelo_flutter/resources/auth_methods.dart';
 import 'package:teelo_flutter/utils/colors.dart';
+import 'package:teelo_flutter/utils/utils.dart';
 import 'package:teelo_flutter/widgets/text_field_input.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -15,6 +20,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _bioaddController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
+  Uint8List? _image;
+  bool _isLoadingAni = false;
 
   @override
   void dispose() {
@@ -24,6 +31,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
     _passwordController.dispose();
     _bioaddController.dispose();
     _usernameController.dispose();
+  }
+
+  void selectImage() async {
+    Uint8List image_gallery = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = image_gallery;
+    });
+  }
+
+  void signUpUser() async {
+    setState(() {
+      _isLoadingAni = true;
+    });
+    String res = await AuthMethods().signUpUser(
+        email: _emailController.text,
+        password: _passwordController.text,
+        username: _usernameController.text,
+        bio: _bioaddController.text,
+        file: _image!);
+    if (res != 'success') {
+      showSnackBar(res, context);
+    }
+    setState(() {
+      _isLoadingAni = false;
+    });
+
+    print(res);
   }
 
   @override
@@ -53,17 +87,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
           //circulare widget for Image
           Stack(
             children: [
-              const CircleAvatar(
-                radius: 64,
-                backgroundImage: NetworkImage(
-                    'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80'),
-              ),
+              _image != null
+                  ? CircleAvatar(
+                      radius: 64,
+                      backgroundImage: MemoryImage(_image!),
+                    )
+                  : const CircleAvatar(
+                      radius: 64,
+                      backgroundImage: NetworkImage(
+                          'https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-photo-183042379.jpg'),
+                    ),
               Positioned(
                 bottom: -10,
                 left: 78,
                 child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.add_a_photo,size: 20,),
+                  onPressed: selectImage,
+                  icon: Icon(
+                    Icons.add_a_photo,
+                    size: 20,
+                  ),
                 ),
               ),
             ],
@@ -102,8 +144,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
             height: 24,
           ),
           InkWell(
+            onTap: signUpUser,
             child: Container(
-              child: const Text('Sign Up'),
+              child: _isLoadingAni
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        color: primaryColor,
+                      ),
+                    )
+                  : const Text('Sign Up'),
               padding: const EdgeInsets.symmetric(vertical: 16),
               width: double.infinity,
               alignment: Alignment.center,
