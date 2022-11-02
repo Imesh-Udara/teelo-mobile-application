@@ -46,6 +46,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
             color: primaryColor,
             height: 64,
           ),
+          const SizedBox(
+            height: 16,
+          ),
 
           //circulare widget for Image
           Stack(
