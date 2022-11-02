@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:teelo_flutter/resources/auth_methods.dart';
 import 'package:teelo_flutter/utils/colors.dart';
+import 'package:teelo_flutter/utils/utils.dart';
 import 'package:teelo_flutter/widgets/text_field_input.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -13,6 +15,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isLoadingAmi = false;
 
   @override
   void dispose() {
@@ -20,6 +23,25 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
+  }
+
+  void loginUser() async {
+    setState(() {
+      _isLoadingAmi = true;
+    });
+    String res = await AuthMethods().loginUser(
+        email: _emailController.text, password: _passwordController.text);
+    if (res == "success") {
+    //   setState(() {
+    //   _isLoadingAmi = false;
+    // });
+    } else {
+    //   setState(() {
+    //   _isLoadingAmi = true;
+    // });
+      showSnackBar(res, context);
+    }
+    
   }
 
   @override
@@ -62,8 +84,11 @@ class _LoginScreenState extends State<LoginScreen> {
             height: 24,
           ),
           InkWell(
+            onTap: loginUser,
             child: Container(
-              child: const Text('Log in'),
+              child: _isLoadingAmi? const Center(child: CircularProgressIndicator(
+                color: primaryColor,
+              ),): const Text('Log in'),
               padding: const EdgeInsets.symmetric(vertical: 16),
               width: double.infinity,
               alignment: Alignment.center,
@@ -90,9 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 8),
               ),
               GestureDetector(
-                onTap: () {
-                  
-                },
+                onTap: () {},
                 child: Container(
                   child: Text(
                     "Sign Up",

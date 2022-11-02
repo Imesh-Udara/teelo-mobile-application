@@ -27,7 +27,8 @@ class AuthMethods {
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
 
-        String imageUrl = await StorageMethods().uploadImageStorage('profileImage', file, false);
+        String imageUrl = await StorageMethods()
+            .uploadImageStorage('profileImage', file, false);
         // print(cred.user.);
         //Add the user to the database
         await _firestore.collection('users').doc(cred.user!.uid).set({
@@ -41,6 +42,27 @@ class AuthMethods {
         });
 
         res = "success user added";
+      }
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
+
+  //Logging in user
+  Future<String> loginUser({
+    required String email,
+    required String password,
+  }) async {
+    String res = "Some error happened";
+
+    try {
+      if (email.isNotEmpty || password.isNotEmpty) {
+        await _auth.signInWithEmailAndPassword(
+            email: email, password: password);
+        res = "login success";
+      } else {
+        res = "Enter all fields";
       }
     } catch (err) {
       res = err.toString();
