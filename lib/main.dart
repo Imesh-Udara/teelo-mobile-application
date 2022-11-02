@@ -5,6 +5,7 @@ import 'package:teelo_flutter/responsive/mobile_screen_Layout.dart';
 import 'package:teelo_flutter/responsive/responsive_layout_screen.dart';
 import 'package:teelo_flutter/responsive/web_screen_Layout.dart';
 import 'package:teelo_flutter/screens/login_screen.dart';
+import 'package:teelo_flutter/screens/signup_screen.dart';
 import 'package:teelo_flutter/utils/colors.dart';
 
 Future main() async {
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
         //   mobileScreenLayout: MobileScreenLayout(),
         //   webScreenLayout: WebScreenLayout(),
         // )
-        home: LoginScreen(),
+        home: SignUpScreen(),
         );
   }
 }
