@@ -4,9 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:teelo_flutter/resources/auth_methods.dart';
+import 'package:teelo_flutter/responsive/mobile_screen_layout.dart';
+import 'package:teelo_flutter/responsive/responsive_layout_screen.dart';
+import 'package:teelo_flutter/screens/login_screen.dart';
 import 'package:teelo_flutter/utils/colors.dart';
 import 'package:teelo_flutter/utils/utils.dart';
 import 'package:teelo_flutter/widgets/text_field_input.dart';
+
+import '../responsive/web_screen_layout.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -34,9 +39,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void selectImage() async {
-    Uint8List image_gallery = await pickImage(ImageSource.gallery);
+    Uint8List imageGallery = await pickImage(ImageSource.gallery);
     setState(() {
-      _image = image_gallery;
+      _image = imageGallery;
     });
   }
 
@@ -44,15 +49,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
     setState(() {
       _isLoadingAni = true;
     });
+
     String res = await AuthMethods().signUpUser(
         email: _emailController.text,
         password: _passwordController.text,
         username: _usernameController.text,
         bio: _bioaddController.text,
         file: _image!);
+    if (!mounted) return;
+
     if (res != 'success') {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const ResponsiveLayout(
+                mobileScreenLayout: MobileScreenLayout(),
+                webScreenLayout: WebScreenLayout(),
+              )));
       showSnackBar(res, context);
-    }
+    } else {}
     setState(() {
       _isLoadingAni = false;
     });
@@ -60,19 +73,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
     print(res);
   }
 
+  void loginNavigation() {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const LoginScreen(),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
             child: Container(
-      padding: EdgeInsets.symmetric(horizontal: 32),
+      padding: const EdgeInsets.symmetric(horizontal: 32),
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Flexible(
-            child: Container(),
             flex: 2,
+            child: Container(),
           ),
           //svg imag
           SvgPicture.asset(
@@ -102,7 +121,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 left: 78,
                 child: IconButton(
                   onPressed: selectImage,
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.add_a_photo,
                     size: 20,
                   ),
@@ -167,25 +186,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
             height: 16,
           ),
           Flexible(
-            child: Container(),
             flex: 2,
+            child: Container(),
           ),
           //This another row foe signup line
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                child: Text("Already have an account? "),
                 padding: const EdgeInsets.symmetric(vertical: 8),
+                child: const Text("Already have an account? "),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: loginNavigation,
                 child: Container(
-                  child: Text(
-                    "Sign In",
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: const Text(
+                    "Log In",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 8),
                 ),
               ),
             ],

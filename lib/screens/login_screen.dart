@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:teelo_flutter/resources/auth_methods.dart';
+import 'package:teelo_flutter/responsive/mobile_screen_layout.dart';
+import 'package:teelo_flutter/responsive/responsive_layout_screen.dart';
+import 'package:teelo_flutter/responsive/web_screen_layout.dart';
+import 'package:teelo_flutter/screens/home_screen.dart';
+import 'package:teelo_flutter/screens/signup_screen.dart';
 import 'package:teelo_flutter/utils/colors.dart';
 import 'package:teelo_flutter/utils/utils.dart';
 import 'package:teelo_flutter/widgets/text_field_input.dart';
@@ -31,17 +36,29 @@ class _LoginScreenState extends State<LoginScreen> {
     });
     String res = await AuthMethods().loginUser(
         email: _emailController.text, password: _passwordController.text);
-    if (res == "success") {
-    //   setState(() {
-    //   _isLoadingAmi = false;
-    // });
+    //For Do not use BuildContexts across async gaps errors
+    if (!mounted) return;
+    if (res == 'login success') {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => const ResponsiveLayout(
+                mobileScreenLayout: MobileScreenLayout(),
+                webScreenLayout: WebScreenLayout(),
+              )));
     } else {
-    //   setState(() {
-    //   _isLoadingAmi = true;
-    // });
+      //   setState(() {
+      //   _isLoadingAmi = true;
+      // });
       showSnackBar(res, context);
     }
-    
+    setState(() {
+      _isLoadingAmi = false;
+    });
+  }
+
+  void signupNavigation() {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const SignUpScreen(),
+    ));
   }
 
   @override
@@ -49,14 +66,14 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
         body: SafeArea(
             child: Container(
-      padding: EdgeInsets.symmetric(horizontal: 32),
+      padding: const EdgeInsets.symmetric(horizontal: 32),
       width: double.infinity,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Flexible(
-            child: Container(),
             flex: 2,
+            child: Container(),
           ),
           //svg imag
           SvgPicture.asset(
@@ -86,9 +103,6 @@ class _LoginScreenState extends State<LoginScreen> {
           InkWell(
             onTap: loginUser,
             child: Container(
-              child: _isLoadingAmi? const Center(child: CircularProgressIndicator(
-                color: primaryColor,
-              ),): const Text('Log in'),
               padding: const EdgeInsets.symmetric(vertical: 16),
               width: double.infinity,
               alignment: Alignment.center,
@@ -97,31 +111,38 @@ class _LoginScreenState extends State<LoginScreen> {
                     borderRadius: BorderRadius.all(Radius.circular(4))),
                 color: blueColor,
               ),
+              child: _isLoadingAmi
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        color: primaryColor,
+                      ),
+                    )
+                  : const Text('Log in'),
             ),
           ),
           const SizedBox(
             height: 16,
           ),
           Flexible(
-            child: Container(),
             flex: 2,
+            child: Container(),
           ),
           //This another row foe signup line
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                child: Text("Dont't have an account? "),
                 padding: const EdgeInsets.symmetric(vertical: 8),
+                child: const Text("Dont't have an account? "),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: signupNavigation,
                 child: Container(
-                  child: Text(
+                  padding: const EdgeInsets.symmetric(vertical: 8),
+                  child: const Text(
                     "Sign Up",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  padding: const EdgeInsets.symmetric(vertical: 8),
                 ),
               ),
             ],
