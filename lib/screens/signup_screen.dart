@@ -96,7 +96,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           //svg imag
           SvgPicture.asset(
             'assets/Teelo.svg',
-            color: primaryColor,
+            // color: primaryColor,
             height: 64,
           ),
           const SizedBox(
