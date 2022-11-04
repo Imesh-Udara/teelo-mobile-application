@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 import 'package:teelo_flutter/providers/user_provider.dart';
-import 'package:teelo_flutter/utils/dimensions.dart';
+import 'package:teelo_flutter/utils/global_variables.dart';
 
 class ResponsiveLayout extends StatefulWidget {
   final Widget webScreenLayout;

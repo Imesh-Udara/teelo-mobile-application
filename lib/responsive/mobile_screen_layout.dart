@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:teelo_flutter/providers/user_provider.dart';
 import 'package:teelo_flutter/models/user.dart' as model;
 import 'package:teelo_flutter/utils/colors.dart';
+import 'package:teelo_flutter/utils/global_variables.dart';
 
 class MobileScreenLayout extends StatefulWidget {
   const MobileScreenLayout({super.key});
@@ -46,13 +47,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
     model.User user = Provider.of<UserProvider>(context).getUser;
     return Scaffold(
       body: PageView(
-        children: [
-          Text('feed'),
-          Text('search'),
-          Text('add post'),
-          Text('notifi'),
-          Text('profile'),
-        ],
+        children: homeScreenItems,
         controller: pageController,
         onPageChanged: onPageChanged,
       ),
