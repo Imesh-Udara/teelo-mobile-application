@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:teelo_flutter/models/user.dart';
 import 'package:teelo_flutter/providers/user_provider.dart';
+import 'package:teelo_flutter/resources/firestores_methods.dart';
 import 'package:teelo_flutter/utils/colors.dart';
 import 'package:teelo_flutter/utils/utils.dart';
 
@@ -18,6 +19,38 @@ class UploadPostScreen extends StatefulWidget {
 class _UploadPostScreenState extends State<UploadPostScreen> {
   Uint8List? _file;
   final TextEditingController _descriptionsController = TextEditingController();
+  //for loading
+  bool _isLoadingIndicator = false;
+
+  void postImage(
+    String uid,
+    String username,
+    String profileImage,
+  ) async {
+    //loarding indicator
+    setState(() {
+      _isLoadingIndicator = true;
+    });
+    try {
+      String res = await FirestoresMethods().uploadPost(
+          uid, _descriptionsController.text, _file!, username, profileImage);
+      if (res == "post_success") {
+        setState(() {
+          _isLoadingIndicator = false;
+        });
+        showSnackBar('Posted!!', context);
+        showclearBackground();
+      } else {
+        setState(() {
+          _isLoadingIndicator = false;
+        });
+        showSnackBar(res, context);
+      }
+    } catch (e) {
+      showSnackBar(e.toString(), context);
+    }
+  }
+
   _selectImage(BuildContext context) async {
     return showDialog(
         context: context,
@@ -56,12 +89,24 @@ class _UploadPostScreenState extends State<UploadPostScreen> {
                 child: const Text('Cancel'),
                 onPressed: () {
                   Navigator.of(context).pop();
-                  
                 },
               ),
             ],
           );
         });
+  }
+
+  void showclearBackground() {
+    setState(() {
+      _file = null;
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _descriptionsController.dispose();
   }
 
   @override
@@ -80,12 +125,13 @@ class _UploadPostScreenState extends State<UploadPostScreen> {
               backgroundColor: mobileBackgroundColor,
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
-                onPressed: () {},
+                onPressed: showclearBackground,
               ),
               title: const Text('Post to'),
               actions: [
                 TextButton(
-                    onPressed: () {},
+                    onPressed: () =>
+                        postImage(user.uid, user.username, user.imageUrl),
                     child: const Text(
                       'Post',
                       style: TextStyle(
@@ -98,6 +144,10 @@ class _UploadPostScreenState extends State<UploadPostScreen> {
             ),
             body: Column(
               children: [
+                _isLoadingIndicator
+                    ? const LinearProgressIndicator()
+                    : const Padding(padding: EdgeInsets.only(top: 0)),
+                const Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
