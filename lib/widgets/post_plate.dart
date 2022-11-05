@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:teelo_flutter/models/user.dart';
 import 'package:teelo_flutter/providers/user_provider.dart';
+import 'package:teelo_flutter/resources/firestores_methods.dart';
 import 'package:teelo_flutter/utils/colors.dart';
 import 'package:teelo_flutter/widgets/fire_animation.dart';
 
@@ -81,7 +82,9 @@ class _PostPlateState extends State<PostPlate> {
           ),
           //Image of post section
           GestureDetector(
-            onDoubleTap: () {
+            onDoubleTap: () async {
+              await FirestoresMethods().firePost(
+                  widget.snapkey['postId'], user.uid, widget.snapkey['likes']);
               setState(() {
                 isFireAnimating = true;
               });
@@ -98,7 +101,7 @@ class _PostPlateState extends State<PostPlate> {
                   ),
                 ),
                 AnimatedOpacity(
-                  opacity: isFireAnimating? 1 : 0,
+                  opacity: isFireAnimating ? 1 : 0,
                   duration: const Duration(milliseconds: 240),
                   child: FireAnimation(
                     child: const Icon(
@@ -128,11 +131,17 @@ class _PostPlateState extends State<PostPlate> {
                 isAnimatingicon: widget.snapkey['likes'].contains(user.uid),
                 smallFire: true,
                 child: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
+                    onPressed: () async {
+                      await FirestoresMethods().firePost(
+                          widget.snapkey['postId'],
+                          user.uid,
+                          widget.snapkey['likes']);
+                    },
+                    icon: widget.snapkey['likes'].contains(user.uid)? const Icon(
                       Icons.whatshot,
                       color: Color.fromARGB(255, 54, 136, 244),
-                    )),
+                    ): const Icon(Icons.whatshot)
+                    ),
               ),
               IconButton(
                   onPressed: () {},
