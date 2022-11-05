@@ -81,24 +81,24 @@ class PostPlate extends StatelessWidget {
               IconButton(
                   onPressed: () {},
                   icon: const Icon(
-                    Icons.mood,
+                    Icons.whatshot ,
                     color: Color.fromARGB(255, 54, 136, 244),
                   )),
               IconButton(
                   onPressed: () {},
                   icon: const Icon(
-                    Icons.mood_bad,
+                    Icons.tips_and_updates_outlined ,
                     color: Color.fromARGB(255, 248, 50, 50),
                   )),
               IconButton(
                   onPressed: () {},
                   icon: const Icon(
-                    Icons.comment_rounded,
+                    Icons.wechat,
                   )),
               IconButton(
                 onPressed: () {},
                 icon: const Icon(
-                  Icons.send,
+                  Icons.north_east_rounded,
                 ),
               ),
               Expanded(
@@ -131,6 +131,7 @@ class PostPlate extends StatelessWidget {
                     '1400 likes',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
+                  
                 ),
                 Container(
                   width: double.infinity,
