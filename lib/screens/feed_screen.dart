@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -22,7 +23,25 @@ class FeedScreen extends StatelessWidget {
           IconButton(onPressed: () {}, icon: const Icon(Icons.message_rounded))
         ],
       ),
-      body: const PostPlate(),
+      //post details from firebase
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance.collection('posts').snapshots(),
+        builder: (context,
+            AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          
+          return ListView.builder(
+            itemCount: snapshot.data!.docs.length,
+            itemBuilder: (context, index) => PostPlate(
+              snapkey: snapshot.data!.docs[index].data(),
+            ),
+          );
+        },
+      ),
     );
   }
 }

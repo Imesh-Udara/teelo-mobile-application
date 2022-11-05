@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:teelo_flutter/utils/colors.dart';
 
 class PostPlate extends StatelessWidget {
-  const PostPlate({super.key});
+  final snapkey;
+  const PostPlate({super.key, required this.snapkey});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +22,7 @@ class PostPlate extends StatelessWidget {
                 CircleAvatar(
                   radius: 16,
                   backgroundImage: NetworkImage(
-                    'https://images.unsplash.com/photo-1666933207369-7db6c255e09e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=80',
+                    snapkey['profileImage'],
                   ),
                 ),
                 Expanded(
@@ -30,7 +33,7 @@ class PostPlate extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          'username',
+                          snapkey['username'],
                           style: TextStyle(fontWeight: FontWeight.bold),
                         )
                       ],
@@ -70,7 +73,7 @@ class PostPlate extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.34,
             width: double.infinity,
             child: Image.network(
-              'https://images.unsplash.com/photo-1667338444771-c5112047b2a6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80',
+              snapkey['postUrl'],
               fit: BoxFit.cover,
             ),
           ),
@@ -81,13 +84,13 @@ class PostPlate extends StatelessWidget {
               IconButton(
                   onPressed: () {},
                   icon: const Icon(
-                    Icons.whatshot ,
+                    Icons.whatshot,
                     color: Color.fromARGB(255, 54, 136, 244),
                   )),
               IconButton(
                   onPressed: () {},
                   icon: const Icon(
-                    Icons.tips_and_updates_outlined ,
+                    Icons.tips_and_updates_outlined,
                     color: Color.fromARGB(255, 248, 50, 50),
                   )),
               IconButton(
@@ -97,9 +100,7 @@ class PostPlate extends StatelessWidget {
                   )),
               IconButton(
                 onPressed: () {},
-                icon: const Icon(
-                  Icons.north_east_rounded,
-                ),
+                icon: const FaIcon(FontAwesomeIcons.share),
               ),
               Expanded(
                 child: Align(
@@ -128,10 +129,9 @@ class PostPlate extends StatelessWidget {
                       .bodyMedium!
                       .copyWith(fontWeight: FontWeight.w600),
                   child: Text(
-                    '1400 likes',
+                    '${snapkey['likes'].length} fires', //string interpolation
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                  
                 ),
                 Container(
                   width: double.infinity,
@@ -143,17 +143,17 @@ class PostPlate extends StatelessWidget {
                         style: const TextStyle(color: primaryColor),
                         children: [
                           TextSpan(
-                            text: 'username',
-                            style: const TextStyle(fontWeight: FontWeight.w700),
+                            text: snapkey['username'],
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                           TextSpan(
-                            text: ' This is some description',
+                            text: '     ${snapkey['description']}',
                           ),
                         ]),
                   ),
                 ),
                 InkWell(
-                  onTap: (){},
+                  onTap: () {},
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 4),
                     child: Text(
@@ -163,12 +163,16 @@ class PostPlate extends StatelessWidget {
                   ),
                 ),
                 Container(
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: Text(
-                      '22/12/2022',
-                      style: TextStyle(fontSize: 14, color: secondaryColor),
+                  padding: const EdgeInsets.symmetric(vertical: 4),
+                  child: Text(
+                    //This is timestamp so we can't enter like other things
+                    //So we use intl package
+                    DateFormat.yMMMd().format(
+                      snapkey['publishedDate'].toDate(),
                     ),
+                    style: TextStyle(fontSize: 14, color: secondaryColor),
                   ),
+                ),
               ],
             ),
           ),
