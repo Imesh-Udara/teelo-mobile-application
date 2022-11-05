@@ -183,6 +183,38 @@ class _UploadPostScreenState extends State<UploadPostScreen> {
                     const Divider(),
                   ],
                 ),
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 300,
+                      width: 480,
+                      child: AspectRatio(
+                        aspectRatio: 487,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: MemoryImage(_file!),
+                                  fit: BoxFit.fill,
+                                  alignment: FractionalOffset.topCenter)),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    SizedBox(
+                      height: 64,
+                      width: 100,
+                        child: TextButton(onPressed: () => _selectImage(context),
+                        child: Text('Change'),
+                          
+                        ),
+                      
+                    ),
+                  ],
+                ),
+
               ],
             ),
           );
