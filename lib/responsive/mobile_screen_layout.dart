@@ -1,10 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:teelo_flutter/providers/user_provider.dart';
-import 'package:teelo_flutter/models/user.dart' as model;
 import 'package:teelo_flutter/utils/colors.dart';
 import 'package:teelo_flutter/utils/global_variables.dart';
 
@@ -35,6 +30,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   void navigationTapped(int page) {
     pageController.jumpToPage(page);
   }
+
   //change bottom icon colors according to the tab
   void onPageChanged(int page) {
     setState(() {
@@ -44,10 +40,11 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
 
   @override
   Widget build(BuildContext context) {
-    model.User user = Provider.of<UserProvider>(context).getUser;
+    // model.User user = Provider.of<UserProvider>(context).getUser;
     return Scaffold(
       body: PageView(
         children: homeScreenItems,
+        physics: const NeverScrollableScrollPhysics(),
         controller: pageController,
         onPageChanged: onPageChanged,
       ),

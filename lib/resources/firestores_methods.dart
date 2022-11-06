@@ -31,7 +31,7 @@ class FirestoresMethods {
         profileImage: profileImage,
         likes: [],
       );
-
+//await ????
       _firestore.collection('posts').doc(postId).set(post.toJson());
       res = "post_success";
     } catch (err) {
@@ -56,7 +56,7 @@ class FirestoresMethods {
       print(e.toString());
     }
   }
-
+  //post the comment
   Future<void> postTheComment(String postId, String text, String uid,
       String name, String profilePictr) async {
     try {
@@ -76,10 +76,20 @@ class FirestoresMethods {
           'publishedDate': DateTime.now(),
         });
       } else {
-        print('comment section empty');
+        print('comment section is Empty');
       }
     } catch (e) {
       print(e.toString());
+    }
+  }
+
+  // delete the post
+
+  Future<void> deletedthePost(String postId) async {
+    try {
+      await _firestore.collection('posts').doc(postId).delete();
+    } catch (err) {
+      print(err.toString());
     }
   }
 }

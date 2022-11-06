@@ -64,7 +64,11 @@ class _PostPlateState extends State<PostPlate> {
                                 children: const ['Delete']
                                     .map(
                                       (e) => InkWell(
-                                        onTap: () {},
+                                        onTap: () async {
+                                          FirestoresMethods().deletedthePost(
+                                              widget.snapkey['postId']);
+                                          Navigator.of(context).pop();
+                                        },
                                         child: Container(
                                           padding: const EdgeInsets.symmetric(
                                               vertical: 10, horizontal: 12),
@@ -155,7 +159,7 @@ class _PostPlateState extends State<PostPlate> {
                   onPressed: () => Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => CommentsScreen(
-                            snapkey: widget.snapkey['postId'].toString()),
+                              snapkey: widget.snapkey),
                         ),
                       ),
                   icon: const Icon(
