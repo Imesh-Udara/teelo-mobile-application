@@ -68,7 +68,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 );
               },
             )
-          : const Text('Posts'),
+          : const Text('No data'),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:teelo_flutter/screens/feed_screen.dart';
+import 'package:teelo_flutter/screens/profile_scree.dart';
 import 'package:teelo_flutter/screens/search_screen.dart';
 import 'package:teelo_flutter/screens/upload_post_screen.dart';
 
@@ -10,5 +11,5 @@ const homeScreenItems = [
   SearchScreen(),
   UploadPostScreen(),
   Text('notifi'),
-  Text('profile'),
+  ProfileScreen(),
 ];
