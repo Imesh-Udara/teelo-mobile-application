@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:teelo_flutter/models/user.dart';
@@ -34,7 +35,27 @@ class _CommentsScreenState extends State<CommentsScreen> {
         title: const Text('Comments'),
         centerTitle: false,
       ),
-      body: CommentPlate(),
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection('posts')
+            .doc(widget.snapkey['postId'])
+            .collection('comments')
+            .orderBy('publishedDate', descending: true) //set the comment for decending
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return ListView.builder(
+            itemCount: (snapshot.data! as dynamic).docs.length,
+            itemBuilder: (context, index) => CommentPlate(
+              snapkey: (snapshot.data! as dynamic).docs[index].data()
+            ),
+          );
+        },
+      ),
       bottomNavigationBar: SafeArea(
         child: Container(
           height: kToolbarHeight,
@@ -73,6 +94,9 @@ class _CommentsScreenState extends State<CommentsScreen> {
                     user.username,
                     user.imageUrl,
                   );
+                  setState(() {
+                    _commentingController.text = "";
+                  });
                 },
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),

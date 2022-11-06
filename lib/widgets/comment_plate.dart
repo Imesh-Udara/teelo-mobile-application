@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CommentPlate extends StatefulWidget {
-  const CommentPlate({super.key});
+  final snapkey;
+  const CommentPlate({super.key, required this.snapkey});
 
   @override
   State<CommentPlate> createState() => _CommentPlateState();
@@ -15,8 +17,7 @@ class _CommentPlateState extends State<CommentPlate> {
       child: Row(
         children: [
           CircleAvatar(
-            backgroundImage: NetworkImage(
-                'https://images.unsplash.com/photo-1667636753807-be27c6cfacab?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80'),
+            backgroundImage: NetworkImage(widget.snapkey['profilePictr']),
             radius: 20,
           ),
           Expanded(
@@ -29,21 +30,26 @@ class _CommentPlateState extends State<CommentPlate> {
                   RichText(
                     text: TextSpan(children: [
                       TextSpan(
-                        text: 'username',
+                        text: widget.snapkey['name'],
                         style: TextStyle(
+                          color: Colors.white,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       TextSpan(
-                        text: 'some description here',
+                        text: '  ${widget.snapkey['text']}',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
                       )
                     ]),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
-                      '22/11/2022',
-                      style: TextStyle(
+                      DateFormat.yMMMd()
+                          .format(widget.snapkey['publishedDate'].toDate()),
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w300,
                       ),
@@ -56,7 +62,7 @@ class _CommentPlateState extends State<CommentPlate> {
           Container(
             padding: const EdgeInsets.all(8),
             child: const Icon(
-              Icons.favorite,
+              Icons.whatshot,
               size: 18,
             ),
           )

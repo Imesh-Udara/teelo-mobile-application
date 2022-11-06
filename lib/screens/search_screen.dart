@@ -21,6 +21,7 @@ class _SearchScreenState extends State<SearchScreen> {
     _searchingContriller.dispose();
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

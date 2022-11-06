@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -7,6 +9,7 @@ import 'package:teelo_flutter/providers/user_provider.dart';
 import 'package:teelo_flutter/resources/firestores_methods.dart';
 import 'package:teelo_flutter/screens/postcomments_screen.dart';
 import 'package:teelo_flutter/utils/colors.dart';
+import 'package:teelo_flutter/utils/utils.dart';
 import 'package:teelo_flutter/widgets/fire_animation.dart';
 
 class PostPlate extends StatefulWidget {
@@ -19,6 +22,32 @@ class PostPlate extends StatefulWidget {
 
 class _PostPlateState extends State<PostPlate> {
   bool isFireAnimating = false;
+  int commentlength = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    showComments();
+  }
+
+  void showComments() async {
+    try {
+      QuerySnapshot snapkey = await FirebaseFirestore.instance
+          .collection('posts')
+          .doc(widget.snapkey['postId'])
+          .collection('comments')
+          .get();
+
+      commentlength = snapkey.docs.length;
+    } catch (e) {
+      showSnackBar(e.toString(), context);
+    }
+    setState(() {
+      
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<UserProvider>(context).getUser;
@@ -158,8 +187,8 @@ class _PostPlateState extends State<PostPlate> {
               IconButton(
                   onPressed: () => Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => CommentsScreen(
-                              snapkey: widget.snapkey),
+                          builder: (context) =>
+                              CommentsScreen(snapkey: widget.snapkey),
                         ),
                       ),
                   icon: const Icon(
@@ -224,7 +253,7 @@ class _PostPlateState extends State<PostPlate> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 4),
                     child: Text(
-                      'view all 1400 comments',
+                      'view all $commentlength comments',
                       style: TextStyle(fontSize: 14, color: secondaryColor),
                     ),
                   ),
