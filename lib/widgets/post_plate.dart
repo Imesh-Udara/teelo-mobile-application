@@ -155,8 +155,7 @@ class _PostPlateState extends State<PostPlate> {
                   onPressed: () => Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => CommentsScreen(
-                            snapkey: widget.snapkey['postId'].toString(),
-                          ),
+                            snapkey: widget.snapkey['postId'].toString()),
                         ),
                       ),
                   icon: const Icon(
