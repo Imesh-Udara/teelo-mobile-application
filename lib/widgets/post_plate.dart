@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:teelo_flutter/models/user.dart';
 import 'package:teelo_flutter/providers/user_provider.dart';
 import 'package:teelo_flutter/resources/firestores_methods.dart';
+import 'package:teelo_flutter/screens/postcomments_screen.dart';
 import 'package:teelo_flutter/utils/colors.dart';
 import 'package:teelo_flutter/widgets/fire_animation.dart';
 
@@ -137,11 +138,12 @@ class _PostPlateState extends State<PostPlate> {
                           user.uid,
                           widget.snapkey['likes']);
                     },
-                    icon: widget.snapkey['likes'].contains(user.uid)? const Icon(
-                      Icons.whatshot,
-                      color: Color.fromARGB(255, 54, 136, 244),
-                    ): const Icon(Icons.whatshot)
-                    ),
+                    icon: widget.snapkey['likes'].contains(user.uid)
+                        ? const Icon(
+                            Icons.whatshot,
+                            color: Color.fromARGB(255, 54, 136, 244),
+                          )
+                        : const Icon(Icons.whatshot)),
               ),
               IconButton(
                   onPressed: () {},
@@ -150,7 +152,13 @@ class _PostPlateState extends State<PostPlate> {
                     color: Color.fromARGB(255, 248, 50, 50),
                   )),
               IconButton(
-                  onPressed: () {},
+                  onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => CommentsScreen(
+                            snapkey: widget.snapkey['postId'].toString(),
+                          ),
+                        ),
+                      ),
                   icon: const Icon(
                     Icons.wechat,
                   )),

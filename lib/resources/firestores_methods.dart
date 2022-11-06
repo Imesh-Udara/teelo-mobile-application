@@ -40,16 +40,43 @@ class FirestoresMethods {
     return res;
   }
 
+  //fire post == like post methods
   Future<void> firePost(String postId, String uid, List likes) async {
     try {
       if (likes.contains(uid)) {
         await _firestore.collection('posts').doc(postId).update({
           'likes': FieldValue.arrayRemove([uid]),
         });
-      }else{
+      } else {
         await _firestore.collection('posts').doc(postId).update({
           'likes': FieldValue.arrayUnion([uid]),
         });
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  Future<void> postTheComment(String postId, String text, String uid,
+      String name, String profilePictr) async {
+    try {
+      if (text.isNotEmpty) {
+        String commentId = const Uuid().v1();
+        await _firestore
+            .collection('posts')
+            .doc(postId)
+            .collection('comments')
+            .doc(commentId)
+            .set({
+          'profilePictr': profilePictr,
+          'name': name,
+          'uid': uid,
+          'text': text,
+          'commentId': commentId,
+          'publishedDate': DateTime.now(),
+        });
+      } else {
+        print('comment section empty');
       }
     } catch (e) {
       print(e.toString());
