@@ -20,7 +20,7 @@ class FeedScreen extends StatelessWidget {
           height: 32,
         ),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.message_rounded))
+          IconButton(onPressed: () {}, icon: const Icon(Icons.wechat))
         ],
       ),
       //post details from firebase

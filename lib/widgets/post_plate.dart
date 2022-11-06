@@ -162,7 +162,7 @@ class _PostPlateState extends State<PostPlate> {
                 child: Align(
                   alignment: Alignment.bottomRight,
                   child: IconButton(
-                    icon: Icon(Icons.bookmark_border),
+                    icon: Icon(Icons.vertical_align_bottom_outlined),
                     onPressed: () {},
                   ),
                 ),
