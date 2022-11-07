@@ -43,9 +43,7 @@ class _PostPlateState extends State<PostPlate> {
     } catch (e) {
       showSnackBar(e.toString(), context);
     }
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   @override
@@ -62,7 +60,7 @@ class _PostPlateState extends State<PostPlate> {
             child: Row(
               children: [
                 CircleAvatar(
-                  radius: 16,
+                  radius: 19,
                   backgroundImage: NetworkImage(
                     widget.snapkey['profileImage'],
                   ),
@@ -126,6 +124,21 @@ class _PostPlateState extends State<PostPlate> {
             child: Stack(
               alignment: Alignment.center,
               children: [
+                // Container(
+                //   width: double.infinity,
+                //   padding: const EdgeInsets.only(
+                //     top: 8,
+                //   ),
+                //   child: RichText(
+                //     text: TextSpan(
+                //         style: const TextStyle(color: primaryColor),
+                //         children: [
+                //           TextSpan(
+                //             text: '     ${widget.snapkey['description']}',
+                //           ),
+                //         ]),
+                //   ),
+                // ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.34,
                   width: double.infinity,
@@ -238,12 +251,13 @@ class _PostPlateState extends State<PostPlate> {
                     text: TextSpan(
                         style: const TextStyle(color: primaryColor),
                         children: [
+                          // TextSpan(
+                          //   text: widget.snapkey['username'],
+                          //   style: const TextStyle(fontWeight: FontWeight.bold),
+                          // ),
+                          ///////////////////////////////////////////////////////////////////////////////////////////////////////////
                           TextSpan(
-                            text: widget.snapkey['username'],
-                            style: const TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          TextSpan(
-                            text: '     ${widget.snapkey['description']}',
+                            text: '${widget.snapkey['description']}',
                           ),
                         ]),
                   ),
