@@ -11,14 +11,14 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  final TextEditingController _searchingContriller = TextEditingController();
+  final TextEditingController searchingContriller = TextEditingController();
   bool isShowtheUser = false;
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    _searchingContriller.dispose();
+    searchingContriller.dispose();
   }
 
   @override
@@ -27,8 +27,9 @@ class _SearchScreenState extends State<SearchScreen> {
       appBar: AppBar(
         backgroundColor: mobileBackgroundColor,
         title: TextFormField(
-          controller: _searchingContriller,
-          decoration: const InputDecoration(labelText: 'Search for a user'),
+          controller: searchingContriller,
+          decoration: const InputDecoration(
+            labelText: 'Search for a user'),
           onFieldSubmitted: (String _) {
             setState(() {
               isShowtheUser = true;
@@ -42,7 +43,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   .collection('users')
                   .where(
                     'username',
-                    isGreaterThanOrEqualTo: _searchingContriller.text,
+                    isGreaterThanOrEqualTo: searchingContriller.text,
                   )
                   .get(),
               builder: (context, snapshot) {
