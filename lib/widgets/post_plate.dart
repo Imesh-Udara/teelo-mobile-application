@@ -124,21 +124,21 @@ class _PostPlateState extends State<PostPlate> {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                // Container(
-                //   width: double.infinity,
-                //   padding: const EdgeInsets.only(
-                //     top: 8,
-                //   ),
-                //   child: RichText(
-                //     text: TextSpan(
-                //         style: const TextStyle(color: primaryColor),
-                //         children: [
-                //           TextSpan(
-                //             text: '     ${widget.snapkey['description']}',
-                //           ),
-                //         ]),
-                //   ),
-                // ),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.only(
+                    top: 8,
+                  ),
+                  child: RichText(
+                    text: TextSpan(
+                        style: const TextStyle(color: primaryColor),
+                        children: [
+                          TextSpan(
+                            text: '     ${widget.snapkey['description']}',
+                          ),
+                        ]),
+                  ),
+                ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.34,
                   width: double.infinity,

@@ -4,7 +4,6 @@ import 'package:teelo_flutter/resources/auth_methods.dart';
 import 'package:teelo_flutter/responsive/mobile_screen_layout.dart';
 import 'package:teelo_flutter/responsive/responsive_layout_screen.dart';
 import 'package:teelo_flutter/responsive/web_screen_layout.dart';
-import 'package:teelo_flutter/screens/home_screen.dart';
 import 'package:teelo_flutter/screens/signup_screen.dart';
 import 'package:teelo_flutter/utils/colors.dart';
 import 'package:teelo_flutter/utils/utils.dart';

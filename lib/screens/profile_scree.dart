@@ -129,9 +129,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             ? FollowButton(
                                                 text: 'Unfollow',
                                                 profileBackgroundColor:
-                                                    Colors.white10,
-                                                textColor: Colors.black12,
-                                                profileBorderColor: Colors.grey,
+                                                    Color.fromARGB(253, 250, 51, 51),
+                                                textColor: Color.fromARGB(255, 255, 255, 255),
+                                                profileBorderColor: Color.fromARGB(253, 250, 51, 51),
                                                 function: () async {
                                                   await FirestoresMethods()
                                                       .followTheUser(
